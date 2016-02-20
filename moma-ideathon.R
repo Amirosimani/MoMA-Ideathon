@@ -17,15 +17,15 @@ data <-moma.data[(moma.data$Department =="Drawings") |
 data <- data[!(data$Classification=="Illustrated Book"), ] 
 data <- data[!(data$Classification=="Periodical"), ] 
 
-#spliting multiple artists into a list
-"data$Artist <- as.character(data$Artist)
+"#spliting multiple artists into a list
+data$Artist <- as.character(data$Artist)
 artists <- strsplit(as.character(data$Artist), ',')
 artists <- gsub("Various Artists", "",artists)
 setDT(data)[, paste0("Names", 1:5) := tstrsplit(artists, ",")]"
 
-#convert dates
+### 1.convert date----
 library(lubridate)
-#data$DateAcquired <- as.Date(data$DateAcquired, "%Y/%m/%d")
+data$DateAcquired <- as.Date(data$DateAcquired)
 data[, "YrAcquired"] <- year(data$DateAcquired)
 data$DateAcquired <- as.numeric(data$DateAcquired)
 
@@ -37,15 +37,15 @@ data$Date = str_replace_all(data$Date, "[^[:alnum:]]", "")
 data$Date = substr(data$Date,1,4) 
 data$Date = as.numeric(data$Date)
 
-
-### 1. read xls file to import gender----
+### 2. read xls file to import gender-----
+"
 data2 <- read.csv("MoMAartist_data_w_bom.csv")
 if (data2[2] == data[4]){
   print y}
 data2$DisplayName <- as.character(data2$DisplayName)
 data$Artist <- as.character(data$Artist)
 
-"
+
 i <- 0
 for (i in 1:nrow(data)){
   for (j in 1:nrow(data2)){
@@ -55,7 +55,8 @@ for (i in 1:nrow(data)){
 }
 }
 "
-### 2. Graphs ----
+
+### 3. Graphs ----
 #Adding blank space column - the time took for the artwork after creation to get to MoMa
 data[, "BlankSpace"] <- data$YrAcquired - data$Date
 
@@ -71,16 +72,24 @@ ggplot(data, aes(ArtworkAge), fill = factor(Department), color = factor(Departme
 
 #before and after 1960
 #tune the scale for axis
-aa <- data[data$YrAcquired>1960,]
+data[data$YrAcquired>1960,]
 ggplot(aa, aes(BlankSpace)) +
   geom_freqpoly(binwidth = 5) + xlim(0, 100) + ylim(0, 20000)
 
-bb <- data[(data$YrAcquired <1960) & (data$YrAcquired > 1925) ,]
+data[(data$YrAcquired <1960) & (data$YrAcquired > 1925) ,]
 ggplot(bb, aes(BlankSpace)) +
   geom_freqpoly(binwidth = 5) + xlim(0, 100) + ylim(0, 2000)
 
 #contemporary fact check
 #data set has an issue!
 contemp.data <- data[data$YrAcquired < data$YrDeath,]
+contemp.comp <-contemp.data[complete.cases(contemp.data$BlankSpace),]
+contemp.comp.painting <- contemp.comp[contemp.comp$Department == "Painting & Sculpture",]
+count(data$Department)
 
-#nationality
+ggplot(contemp.comp.painting, aes(BlankSpace, fill = factor(Gift), color = factor(Gift))) +
+  geom_freqpoly(binwidth = 5) + xlim(0, 100)
+
+#Nationalities
+(count(contemp.comp.painting$Nationality))
+
