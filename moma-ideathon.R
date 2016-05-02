@@ -71,6 +71,10 @@ for (i in 1:nrow(data)){
 
 ### 3. Graphs ----
 #Blankspace graph
+ggplot(data, aes(BlankSpace)) +
+  geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 150) +  theme(panel.background = element_blank()) +
+  labs(title = "How long after completion did it take to get in MoMA?", x = "Year", Y = "Number of Artworks")
+
 ggplot(data, aes(BlankSpace, fill = factor(Gift), color = factor(Gift))) +
   geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 150) +
   labs(title = "How long after completion did it take to get in MoMA?", x = "Year", Y = "Number of Artworks")
@@ -93,22 +97,32 @@ ggplot(data, aes(ArtworkAge, fill = factor(Gift), color = factor(Gift))) +
 #before and after 1960
 #tune the scale for axis
 post60 <- data[data$YrAcquired>1960,]
-ggplot(post60, aes(BlankSpace)) +
-  geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 20000)+
-  labs(title = "post 1960 artworks", x = "Year", Y = "Number of Artworks")
+ggplot(post60, aes(BlankSpace, color = "red")) +
+  geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 20000)+ theme(panel.background = element_blank())
+  labs(title = "Blank space for post 1960 artworks", x = "Year", Y = "Number of Artworks")
 
 ggplot(post60, aes(BlankSpace, , fill = factor(Gift), color = factor(Gift))) +
   geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 10000)+
-  labs(title = "post 1960 artworks", x = "Year", Y = "Number of Artworks")
+  labs(title = "Blank space for post 1960 artworks", x = "Year", Y = "Number of Artworks")
 
 ggplot(post60, aes(BlankSpace, , fill = factor(Department), color = factor(Department))) +
   geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 10000)+
-  labs(title = "post 1960 artworks", x = "Year", Y = "Number of Artworks")
+  labs(title = "Blank space post 1960 artworks", x = "Year", Y = "Number of Artworks")
 
 
-data[(data$YrAcquired <1960) & (data$YrAcquired > 1925) ,]
-ggplot(bb, aes(BlankSpace)) +
-  geom_freqpoly(binwidth = 5) + xlim(0, 100) + ylim(0, 2000)
+pre1960 <- data[(data$YrAcquired <1960) & (data$YrAcquired > 1925) ,]
+
+ggplot(pre1960, aes(BlankSpace, color = "FF9999")) +
+  geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 20000)+ theme(panel.background = element_blank())
+  labs(title = "Blank space for post 1960 artworks", x = "Year", Y = "Number of Artworks")
+
+ggplot(pre1960, aes(BlankSpace, , fill = factor(Gift), color = factor(Gift))) +
+  geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 10000)+
+  labs(title = "Blank space for post 1960 artworks", x = "Year", Y = "Number of Artworks")
+
+ggplot(pre1960, aes(BlankSpace, , fill = factor(Department), color = factor(Department))) +
+  geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 10000)+
+  labs(title = "Blank space post 1960 artworks", x = "Year", Y = "Number of Artworks")
 
 
 #contemporary fact check
@@ -134,3 +148,18 @@ sd(contemp.comp$ArtworkAge, na.rm=TRUE)
 
 mean(data$BlankSpace, na.rm=TRUE)
 sd(data$BlankSpace, na.rm=TRUE)
+
+
+### every thing together----
+
+plot1<- ggplot(data, aes(BlankSpace)) +
+  geom_freqpoly(binwidth = 5, size = 1.5)
+
+plot2<- ggplot(pre1960, aes(BlankSpace)) +
+  geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 20000)
+
+plot1 + plot2
+plot2 + ggplot(post60, aes(BlankSpace)) +
+  geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 20000)+
+  labs(title = "Blank space for post 1960 artworks", x = "Year", Y = "Number of Artworks")
+
