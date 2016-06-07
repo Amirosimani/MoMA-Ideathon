@@ -72,56 +72,71 @@ for (i in 1:nrow(data)){
 ### 3. Graphs ----
 #Blankspace graph
 ggplot(data, aes(BlankSpace)) +
-  geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 150) +  theme(panel.background = element_blank()) +
+  geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 150) + 
+  theme(panel.background = element_rect(), axis.text = element_text(size = 15), axis.title.y = element_text(size = 20), axis.title.x = element_text(size = 20), plot.title = element_text(size = 22)) +
   labs(title = "How long after completion did it take to get in MoMA?", x = "Year", Y = "Number of Artworks")
 
 ggplot(data, aes(BlankSpace, fill = factor(Gift), color = factor(Gift))) +
+  theme(panel.background = element_rect(), axis.text = element_text(size = 15), axis.title.y = element_text(size = 20), axis.title.x = element_text(size = 20), plot.title = element_text(size = 22)) +
   geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 150) +
   labs(title = "How long after completion did it take to get in MoMA?", x = "Year", Y = "Number of Artworks")
   
 ggplot(data, aes(BlankSpace, fill = factor(Department), color = factor(Department))) +
   geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 150) +
+  theme(panel.background = element_rect(), axis.text = element_text(size = 15), axis.title.y = element_text(size = 20), axis.title.x = element_text(size = 20), plot.title = element_text(size = 22)) +
   labs(title = "How long for each department?", x = "Year", Y = "Number of Artworks") 
   
 
 #Artwork age
 ggplot(data, aes(ArtworkAge)) +
   geom_freqpoly(binwidth = 10, size = 1.5) + xlim(0, 220) +
+  theme(panel.background = element_rect(), axis.text = element_text(size = 15), axis.title.y = element_text(size = 20), axis.title.x = element_text(size = 20), plot.title = element_text(size = 22)) +
   labs(title = "How old was the Artwork?", x = "Year", Y = "Number of Artworks")
 
 #Artwork age by type of acquisition
 ggplot(data, aes(ArtworkAge, fill = factor(Gift), color = factor(Gift))) +
-  geom_freqpoly(binwidth = 10, size = 1.5) 
+  geom_freqpoly(binwidth = 10, size = 1.5) +
+  theme(panel.background = element_rect(), axis.text = element_text(size = 15), axis.title.y = element_text(size = 20), axis.title.x = element_text(size = 20), plot.title = element_text(size = 22))
+  
 
 
 #before and after 1960
 #tune the scale for axis
 post60 <- data[data$YrAcquired>1960,]
-ggplot(post60, aes(BlankSpace, color = "red")) +
-  geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 20000)+ theme(panel.background = element_blank())
-  labs(title = "Blank space for post 1960 artworks", x = "Year", Y = "Number of Artworks")
+"ggplot(post60, aes(BlankSpace, color = "red")) +
+  geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 20000)+
+  theme(panel.background = element_rect(), axis.text = element_text(size = 15), axis.title.y = element_text(size = 20), axis.title.x = element_text(size = 20), plot.title = element_text(size = 22)) +
+  
+  labs(title = "Blank space for post 1960 artworks", x = "Year", Y = "Number of Artworks")"
 
 ggplot(post60, aes(BlankSpace, , fill = factor(Gift), color = factor(Gift))) +
   geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 10000)+
+  theme(panel.background = element_rect(), axis.text = element_text(size = 15), axis.title.y = element_text(size = 20), axis.title.x = element_text(size = 20), plot.title = element_text(size = 22)) +
+  
   labs(title = "Blank space for post 1960 artworks", x = "Year", Y = "Number of Artworks")
 
 ggplot(post60, aes(BlankSpace, , fill = factor(Department), color = factor(Department))) +
   geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 10000)+
+  theme(panel.background = element_rect(), axis.text = element_text(size = 15), axis.title.y = element_text(size = 20), axis.title.x = element_text(size = 20), plot.title = element_text(size = 22)) +
+  
   labs(title = "Blank space post 1960 artworks", x = "Year", Y = "Number of Artworks")
 
 
 pre1960 <- data[(data$YrAcquired <1960) & (data$YrAcquired > 1925) ,]
 
 ggplot(pre1960, aes(BlankSpace, color = "FF9999")) +
-  geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 20000)+ theme(panel.background = element_blank())
+  geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 20000)+
+  theme(panel.background = element_rect(), axis.text = element_text(size = 15), axis.title.y = element_text(size = 20), axis.title.x = element_text(size = 20), plot.title = element_text(size = 22)) +
   labs(title = "Blank space for post 1960 artworks", x = "Year", Y = "Number of Artworks")
 
 ggplot(pre1960, aes(BlankSpace, , fill = factor(Gift), color = factor(Gift))) +
   geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 10000)+
+  theme(panel.background = element_rect(), axis.text = element_text(size = 15), axis.title.y = element_text(size = 20), axis.title.x = element_text(size = 20), plot.title = element_text(size = 22)) +
   labs(title = "Blank space for post 1960 artworks", x = "Year", Y = "Number of Artworks")
 
 ggplot(pre1960, aes(BlankSpace, , fill = factor(Department), color = factor(Department))) +
   geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) + ylim(0, 10000)+
+  theme(panel.background = element_rect(), axis.text = element_text(size = 15), axis.title.y = element_text(size = 20), axis.title.x = element_text(size = 20), plot.title = element_text(size = 22)) +
   labs(title = "Blank space post 1960 artworks", x = "Year", Y = "Number of Artworks")
 
 
@@ -132,15 +147,22 @@ contemp.comp <-contemp.data[complete.cases(contemp.data$BlankSpace),]
 contemp.comp.painting <- contemp.comp[contemp.comp$Department == "Painting & Sculpture",]
 count(contemp.comp$Department)
 
+### contemp == artwork acquired before death of artist
+data[, "contemporary"] <- 2016 - data$YrBirth
+data$contemporary <- ifelse(data$YrAcquired < data$YrDeath, 1, 0)
+
+
 ggplot(contemp.comp, aes(BlankSpace, fill = factor(Gift), color = factor(Gift))) +
   geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) +
+  theme(panel.background = element_rect(), axis.text = element_text(size = 15), axis.title.y = element_text(size = 20), axis.title.x = element_text(size = 20), plot.title = element_text(size = 22)) +
   labs(title = "Blank space for contemporary artworks", x = "Year", Y = "Number of Artworks") 
 
 ggplot(contemp.comp, aes(BlankSpace, fill = factor(Department), color = factor(Department))) +
   geom_freqpoly(binwidth = 5, size = 1.5) + xlim(0, 100) +
+  theme(panel.background = element_rect(), axis.text = element_text(size = 15), axis.title.y = element_text(size = 20), axis.title.x = element_text(size = 20), plot.title = element_text(size = 22)) +
   labs(title = "Blank space for contemporary artworks", x = "Year", Y = "Number of Artworks") 
 
-
+write.csv(data, file = "data.csv")
 ### 4. statistics----
 
 mean(contemp.comp$ArtworkAge, na.rm=TRUE)
